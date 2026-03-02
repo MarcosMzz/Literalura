@@ -63,17 +63,17 @@ List<Libro> findByIdiomaIgnoreCase(String idioma);
 
 🗃️ Modelo de datos
 
-📘 Libro
-Título
-Idioma
-Número de descargas
-Autor (ManyToOne)
+📘 Libro: 
+-Título
+-Idioma
+-Número de descargas
+-Autor (ManyToOne)
 
-👤 Autor
-Nombre
-Año de nacimiento
-Año de fallecimiento
-Lista de libros (OneToMany)
+👤 Autor: 
+-Nombre
+-Año de nacimiento
+-Año de fallecimiento
+-Lista de libros (OneToMany)
 
 🧩 Conceptos aplicados
 Relaciones bidireccionales JPA
@@ -84,19 +84,6 @@ Manejo de N+1 problem
 Reutilización de métodos para impresión
 Validación de duplicados antes de persistir
 
-▶️ Cómo ejecutar
-
-Clonar el repositorio:
-
-git clone <url-del-repo>
-
-Entrar al proyecto:
-
-cd Literalura
-
-Ejecutar:
-
-mvn spring-boot:run
 📈 Estado del proyecto
 
 ✅ Funcional
