@@ -8,6 +8,7 @@ import com.example.Literalura.service.ConvertirDatos;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -33,6 +34,8 @@ public class Principal {
 
             var menu = """
                     1 - Buscar libro por titulo
+                    2- Mostrar todos los libros registrados
+                    3- Mostrar todos los autores registrados
                     0 - Salir
                     """;
 
@@ -42,6 +45,11 @@ public class Principal {
 
             switch (opcion){
                 case 1: buscarLibro();
+                        break;
+                case 2: mostrarTodosLosLibros();
+                        break;
+                case 3: mostrarAutoresConLibros();
+                    break;
             }
         }
 
@@ -107,7 +115,54 @@ public class Principal {
         libroRepository.save(libro);
 
         System.out.println("Libro guardado correctamente.");
+    }
 
+    private void mostrarTodosLosLibros() {
+        List<Libro> libros = libroRepository.findAll();
 
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros cargados.");
+            return;
+        }
+
+        for (Libro libro : libros) {
+
+            System.out.println("-------------Libro-----------");
+            System.out.println("Título: " + libro.getTitulo());
+            System.out.println("Autor: " + libro.getAutor().getNombreAutor());
+            System.out.println("Idioma: " + libro.getIdioma());
+            System.out.println("Descargas: " + libro.getNroDescargas());
+            System.out.println("-----------------------------\n");
+        }
+
+    }
+
+    private void mostrarAutoresConLibros() {
+
+        List<Autor> autores = autorRepository.findAllConLibros();
+
+        if (autores.isEmpty()) {
+            System.out.println("No hay autores cargados.");
+            return;
+        }
+
+        for (Autor autor : autores) {
+
+            System.out.println("Autor: " + autor.getNombreAutor());
+            System.out.println("Fecha de nacimiento: " + autor.getAnioNacimiento());
+            System.out.println("Fecha de fallecimiento: " + autor.getAnioFallecimiento());
+
+            System.out.println("Libros:");
+
+            if (autor.getLibros().isEmpty()) {
+                System.out.println(" - Sin libros registrados");
+            } else {
+                for (Libro libro : autor.getLibros()) {
+                    System.out.println(" - " + libro.getTitulo());
+                }
+            }
+
+            System.out.println("-----------------------------------\n");
+        }
     }
 }
