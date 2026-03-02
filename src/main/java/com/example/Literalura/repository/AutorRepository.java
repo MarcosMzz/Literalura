@@ -16,11 +16,11 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
     List<Autor> findAllConLibros();
 
     @Query("""
-    SELECT DISTINCT a 
-    FROM Autor a 
-    WHERE a.fechaNacimiento <= :anio
-    AND (a.fechaFallecimiento IS NULL OR a.fechaFallecimiento >= :anio)
-    """)
+    SELECT DISTINCT a
+    FROM Autor a
+    WHERE a.anioNacimiento <= :anio
+    AND (a.anioFallecimiento IS NULL OR a.anioFallecimiento >= :anio)
+""")
     List<Autor> findAutoresVivosEnAnio(@Param("anio") Integer anio);
 
 }

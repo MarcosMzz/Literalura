@@ -36,6 +36,7 @@ public class Principal {
                     1 - Buscar libro por titulo
                     2- Mostrar todos los libros registrados
                     3- Mostrar todos los autores registrados
+                    4- Listar autores vivos en cierto anio
                     0 - Salir
                     """;
 
@@ -49,6 +50,8 @@ public class Principal {
                 case 2: mostrarTodosLosLibros();
                         break;
                 case 3: mostrarAutoresConLibros();
+                    break;
+                case 4: listarAutoresVivosEnAnio();
                     break;
             }
         }
@@ -146,23 +149,35 @@ public class Principal {
             return;
         }
 
+        mostrarAutores(autores);
+
+    }
+
+    private void mostrarAutores(List<Autor> autores) {
+
+        if (autores.isEmpty()) {
+            System.out.println("No se encontraron autores.");
+            return;
+        }
+
         for (Autor autor : autores) {
 
             System.out.println("Autor: " + autor.getNombreAutor());
             System.out.println("Fecha de nacimiento: " + autor.getAnioNacimiento());
             System.out.println("Fecha de fallecimiento: " + autor.getAnioFallecimiento());
-
-            System.out.println("Libros:");
-
-            if (autor.getLibros().isEmpty()) {
-                System.out.println(" - Sin libros registrados");
-            } else {
-                for (Libro libro : autor.getLibros()) {
-                    System.out.println(" - " + libro.getTitulo());
-                }
-            }
-
-            System.out.println("-----------------------------------\n");
+            System.out.println("-----------------------------------");
         }
+    }
+
+    private void listarAutoresVivosEnAnio() {
+
+        System.out.println("Ingrese el año que desea consultar:");
+        int anio = Integer.parseInt(inputUsuario.nextLine());
+
+        List<Autor> autores = autorRepository.findAutoresVivosEnAnio(anio);
+
+        System.out.println("\nAutores vivos en el año " + anio + ":\n");
+
+        mostrarAutores(autores);
     }
 }
