@@ -34,9 +34,10 @@ public class Principal {
 
             var menu = """
                     1 - Buscar libro por titulo
-                    2- Mostrar todos los libros registrados
-                    3- Mostrar todos los autores registrados
-                    4- Listar autores vivos en cierto anio
+                    2 - Mostrar todos los libros registrados
+                    3 - Mostrar todos los autores registrados
+                    4 - Listar autores vivos en cierto anio
+                    5 - Listar libros por idioma
                     0 - Salir
                     """;
 
@@ -53,6 +54,9 @@ public class Principal {
                     break;
                 case 4: listarAutoresVivosEnAnio();
                     break;
+                case 5: listarLibrosPorIdioma();
+                    break;
+                default: break;
             }
         }
 
@@ -123,20 +127,7 @@ public class Principal {
     private void mostrarTodosLosLibros() {
         List<Libro> libros = libroRepository.findAll();
 
-        if (libros.isEmpty()) {
-            System.out.println("No hay libros cargados.");
-            return;
-        }
-
-        for (Libro libro : libros) {
-
-            System.out.println("-------------Libro-----------");
-            System.out.println("Título: " + libro.getTitulo());
-            System.out.println("Autor: " + libro.getAutor().getNombreAutor());
-            System.out.println("Idioma: " + libro.getIdioma());
-            System.out.println("Descargas: " + libro.getNroDescargas());
-            System.out.println("-----------------------------\n");
-        }
+        mostrarLibros(libros);
 
     }
 
@@ -179,5 +170,53 @@ public class Principal {
         System.out.println("\nAutores vivos en el año " + anio + ":\n");
 
         mostrarAutores(autores);
+    }
+
+    private void mostrarLibros(List<Libro> libros) {
+
+        if (libros.isEmpty()) {
+            System.out.println("No se encontraron libros.");
+            return;
+        }
+
+        for (Libro libro : libros) {
+            System.out.println("-------------Libro-----------");
+            System.out.println("Título: " + libro.getTitulo());
+            System.out.println("Autor: " + libro.getAutor().getNombreAutor());
+            System.out.println("Idioma: " + libro.getIdioma());
+            System.out.println("Descargas: " + libro.getNroDescargas());
+            System.out.println("-----------------------------\n");
+        }
+    }
+
+    private void listarLibrosPorIdioma() {
+
+            System.out.println("""
+            Seleccione un idioma:
+            1 - Inglés (en)
+            2 - Español (es)
+            3 - Francés (fr)
+            4 - Portugués (pt)
+            """);
+
+            int opcion = inputUsuario.nextInt();
+            inputUsuario.nextLine();
+
+            String idioma;
+
+            switch (opcion) {
+                case 1 -> idioma = "en";
+                case 2 -> idioma = "es";
+                case 3 -> idioma = "fr";
+                case 4 -> idioma = "pt";
+                default -> {
+                    System.out.println("Opción inválida.");
+                    return;
+                }
+            }
+
+            List<Libro> libros = libroRepository.findByIdiomaIgnoreCase(idioma);
+
+            mostrarLibros(libros);
     }
 }
